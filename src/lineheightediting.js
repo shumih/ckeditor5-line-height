@@ -1,9 +1,10 @@
 import Plugin from "@ckeditor/ckeditor5-core/src/plugin";
 import LineHeightCommand from "./lineheightcommand";
-import { elementToAttribute } from "@ckeditor/ckeditor5-engine/src/conversion/upcasthelpers";
+import UpcastHelpers from "@ckeditor/ckeditor5-engine/src/";
 import { normalizeOptions, buildDefinition } from "./utils";
 
 const LINE_HEIGHT = "lineHeight";
+const helpers = new UpcastHelpers();
 
 export default class LineHeightEditing extends Plugin {
   constructor(editor) {
@@ -32,7 +33,7 @@ export default class LineHeightEditing extends Plugin {
     // Set-up the two-way conversion.
     editor.conversion.attributeToElement(definition);
 
-    elementToAttribute({
+    helpers.elementToAttribute({
       view: {
         name: "span",
         styles: {
