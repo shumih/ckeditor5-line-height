@@ -50,9 +50,5 @@
     "type": "git",
     "url": "git+https://github.com/vdfor/ckeditor5-line-height.git"
   },
-  "scripts": {
-    "lint": "eslint --quiet '**/*.js'",
-    "precommit": "lint-staged"
-  },
   "version": "0.3.1"
 }
