@@ -1,18 +1,25 @@
-import Plugin from "@ckeditor/ckeditor5-core/src/plugin";
-import LineHeightCommand from "./lineheightcommand";
-import UpcastHelpers from "@ckeditor/ckeditor5-engine/src/conversion/upcasthelpers";
-import { normalizeOptions, buildDefinition } from "./utils";
+import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
+import LineHeightCommand from './lineheightcommand';
+import { upcastElementToAttribute } from '@ckeditor/ckeditor5-engine/src/conversion/upcast-converters';
+import { normalizeOptions, buildDefinition } from './utils';
 
-const LINE_HEIGHT = "lineHeight";
-const helpers = new UpcastHelpers();
+const LINE_HEIGHT = 'lineHeight';
 
 export default class LineHeightEditing extends Plugin {
-  constructor(editor) {
-    super(editor);
+  constructor( editor ) {
+    super( editor );
 
-    editor.config.define(LINE_HEIGHT, {
-      options: [1, 1.25, 1.5, 1.75, 2, 2.25, 2.5]
-    });
+    editor.config.define( LINE_HEIGHT, {
+      options: [
+        1,
+        1.25,
+        1.5,
+        1.75,
+        2,
+        2.25,
+        2.5
+      ]
+    } );
   }
 
   /**
@@ -22,28 +29,26 @@ export default class LineHeightEditing extends Plugin {
     const editor = this.editor;
 
     // Allow LineHeight attribute on text nodes.
-    editor.model.schema.extend("$text", { allowAttributes: LINE_HEIGHT });
+    editor.model.schema.extend('$text', { allowAttributes: LINE_HEIGHT });
 
     // Define view to model conversion.
-    const options = normalizeOptions(
-      this.editor.config.get("lineHeight.options")
-    ).filter(item => item.model);
+    const options = normalizeOptions(this.editor.config.get('lineHeight.options')).filter(item => item.model);
     const definition = buildDefinition(LINE_HEIGHT, options);
 
     // Set-up the two-way conversion.
     editor.conversion.attributeToElement(definition);
 
-    helpers.elementToAttribute({
+    editor.conversion.for('upcast').elementToAttribute({
       view: {
-        name: "span",
+        name: 'span',
         styles: {
-          "line-height": /^\d+(.\d+)?$/ // 非负浮点数
+          'line-height': /^\d+(.\d+)?$/ // 非负浮点数
         }
       },
       model: {
         key: LINE_HEIGHT,
         value: viewElement => {
-          const lineHeight = viewElement.getStyle("line-height");
+          const lineHeight = viewElement.getStyle('line-height');
           return lineHeight;
         }
       }
