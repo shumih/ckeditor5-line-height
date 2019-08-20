@@ -1,6 +1,6 @@
 import Plugin from "@ckeditor/ckeditor5-core/src/plugin";
 import LineHeightCommand from "./lineheightcommand";
-import UpcastHelpers from "@ckeditor/ckeditor5-engine/src/";
+import UpcastHelpers from "@ckeditor/ckeditor5-engine/src/conversion/upcasthelpers";
 import { normalizeOptions, buildDefinition } from "./utils";
 
 const LINE_HEIGHT = "lineHeight";
